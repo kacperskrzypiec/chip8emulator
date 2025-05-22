@@ -2,6 +2,8 @@
 
 #include <sstream>
 #include <iostream>
+#include <cmath>
+#include <format>
 
 namespace ks {
 	constexpr static int AUDIO_STREAM_FREQUENCY = 8000;
@@ -170,8 +172,8 @@ namespace ks {
 	auto App::render() -> void {
 		SDL_RenderClear(m_window);
 		
-		const float scaleX = std::floorf(m_window.get_width() / Chip8::DISPLAY_X);
-		const float scaleY = std::floorf(m_window.get_height() / Chip8::DISPLAY_Y);
+		const float scaleX = std::floor(m_window.get_width() / Chip8::DISPLAY_X);
+		const float scaleY = std::floor(m_window.get_height() / Chip8::DISPLAY_Y);
 		const float scale = std::min(scaleX, scaleY);
 
 		const float sizeX = Chip8::DISPLAY_X * scale;
@@ -200,7 +202,7 @@ namespace ks {
 
 			for (int i = 0; i < samples.size(); i++) {
 				const float phase = static_cast<float>(m_currentSineSample * PULSE_FREQUENCY) / AUDIO_STREAM_FREQUENCY;
-				samples[i] = std::sinf(2.0f * SDL_PI_F * phase);
+				samples[i] = std::sin(2.0f * SDL_PI_F * phase);
 				m_currentSineSample++;
 			}
 

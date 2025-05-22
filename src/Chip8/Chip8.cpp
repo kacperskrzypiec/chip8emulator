@@ -5,8 +5,9 @@
 #include <fstream>
 #include <string_view>
 #include <random>
+#include <cstring>
 
-namespace {
+namespace ks {
 	static auto random(int minValue, int maxValue) -> int {
 		static std::random_device rd;
 		static std::mt19937_64 mt(rd());
@@ -14,9 +15,7 @@ namespace {
 		std::uniform_int_distribution<int> dist(minValue, maxValue);
 		return dist(mt);
 	}
-}
 
-namespace ks {
 	Chip8::Chip8() {
 		m_cpu.halted = 1;
 	}
@@ -437,7 +436,7 @@ namespace ks {
 			}
 			break;
 		case RANDOM:
-			m_cpu.registers.set_register(instruction.vx, ::random(0, 255) & instruction.literal);
+			m_cpu.registers.set_register(instruction.vx, ks::random(0, 255) & instruction.literal);
 			break;
 		case DRAW: {
 			const uint8_t x = m_cpu.registers.get_register(instruction.vx) & (DISPLAY_X - 1);
